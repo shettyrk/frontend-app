@@ -1,49 +1,76 @@
-import React, { useContext } from "react";
-import { CartContext } from "./context/CartContext";
+import React from "react";
+import { useCart } from "../context/CartContext";
 
-function Home() {
-  const { addToCart, cartItems } = useContext(CartContext);
+const Home = () => {
+  const { cartItems, addToCart, increaseQuantity, decreaseQuantity } = useCart();
 
   const products = [
-    { id: 1, name: "Product A", price: 100 },
-    { id: 2, name: "Product B", price: 200 },
-    { id: 3, name: "Product C", price: 300 },
+    { id: 1, name: "Lavender Bliss Candle", price: 299, image: "/images/lavender.jpg" },
+    { id: 2, name: "Vanilla Comfort Candle", price: 349, image: "/images/vanilla.jpg" },
+    { id: 3, name: "Rose Serenity Candle", price: 399, image: "/images/rose.jpg" },
+    { id: 4, name: "Ocean Breeze Candle", price: 379, image: "/images/ocean.jpg" },
   ];
 
-  const isInCart = (id) => cartItems.some((item) => item.id === id);
+  const getQuantity = (id) => {
+    const item = cartItems.find((p) => p.id === id);
+    return item ? item.quantity : 0;
+  };
 
   return (
-    <div className="p-6">
-      <h2 className="text-2xl font-bold mb-6">🛍️ Products</h2>
+    <div className="p-6 bg-gray-50 min-h-screen">
+      <h1 className="text-3xl font-bold mb-6 text-center text-pink-600">
+        🕯️ Our Featured Candles
+      </h1>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {products.map((p) => (
-          <div
-            key={p.id}
-            className="border p-4 rounded-lg shadow-md hover:shadow-lg transition"
-          >
-            <h3 className="font-semibold text-lg">{p.name}</h3>
-            <p className="text-gray-600 mb-2">₹{p.price}</p>
-            <button
-              disabled={isInCart(p.id)}
-              className={`px-3 py-1 rounded text-white ${
-                isInCart(p.id)
-                  ? "bg-green-500 cursor-not-allowed"
-                  : "bg-blue-600 hover:bg-blue-700"
-              }`}
-              onClick={() => addToCart(p)}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {products.map((product) => {
+          const quantity = getQuantity(product.id);
+
+          return (
+            <div
+              key={product.id}
+              className="bg-white shadow-md rounded-lg p-4 flex flex-col justify-between hover:shadow-lg transition"
             >
-              {isInCart(p.id) ? "Added" : "Add to Cart"}
-            </button>
-          </div>
-        ))}
-      </div>
+              <img
+                src={product.image}
+                alt={product.name}
+                className="h-48 w-full object-cover rounded-md"
+              />
+              <h2 className="mt-3 text-lg font-semibold text-gray-800">
+                {product.name}
+              </h2>
+              <p className="text-gray-600">₹{product.price}</p>
 
-      <p className="mt-6 font-semibold">
-        Items in cart: {cartItems.length}
-      </p>
+              {quantity > 0 ? (
+                <div className="flex items-center justify-between mt-3">
+                  <button
+                    onClick={() => decreaseQuantity(product.id)}
+                    className="bg-gray-300 px-2 py-1 rounded hover:bg-gray-400"
+                  >
+                    –
+                  </button>
+                  <span className="font-semibold">{quantity}</span>
+                  <button
+                    onClick={() => increaseQuantity(product.id)}
+                    className="bg-gray-300 px-2 py-1 rounded hover:bg-gray-400"
+                  >
+                    +
+                  </button>
+                </div>
+              ) : (
+                <button
+                  onClick={() => addToCart(product)}
+                  className="mt-3 bg-pink-500 text-white py-2 rounded-lg hover:bg-pink-600 transition"
+                >
+                  Add to Cart
+                </button>
+              )}
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
-}
+};
 
 export default Home;
