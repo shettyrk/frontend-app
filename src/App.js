@@ -16,6 +16,11 @@ import Signup from "./pages/Auth/Signup";
 import Profile from "./pages/Profile";
 import Checkout from "./pages/Checkout";
 import OrderSuccess from "./pages/OrderSuccess";
+import OrderHistory from "./pages/OrderHistory";
+import UserDashboard from "./pages/UserDashboard";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+
+
 
 
 function App() {
@@ -59,8 +64,28 @@ function App() {
                 </PrivateRoute>
               }
             />
-
-
+            <Route
+              path="/orders" element={
+                <PrivateRoute>
+                  <OrderHistory />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/dashboard" element={
+                <PrivateRoute>
+                  <UserDashboard />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/admin"
+              element={
+                <PrivateRoute>
+                  <AdminDashboard />
+                </PrivateRoute>
+              }
+            />
           </Routes>
           <FloatingCartIcon />
           <Footer />
