@@ -3,6 +3,11 @@ import ProductList from "./ProductList";
 import OrderManagement from "./OrderManagement";
 import UserManagement from "./UserManagement";
 import { useAuth } from "../../context/AuthContext";
+import DiscountManagement from "./DiscountManagement";
+import CategoryManagement from "./CategoryManagement";
+import AdminOverview from "./AdminOverview";
+
+
 
 const AdminDashboard = () => {
   const { user } = useAuth();
@@ -59,6 +64,40 @@ const AdminDashboard = () => {
                 👥 Users
               </button>
             </li>
+            <li>
+              <button
+                onClick={() => setActiveTab("discounts")}
+                className={`w-full text-left px-4 py-2 rounded-lg ${activeTab === "discounts"
+                    ? "bg-amber-600 text-white"
+                    : "hover:bg-amber-100 text-gray-700"
+                  }`}
+              >
+                💸 Discounts
+              </button>
+            </li>
+            <li>
+              <button
+                onClick={() => setActiveTab("categories")}
+                className={`w-full text-left px-4 py-2 rounded-lg ${activeTab === "categories"
+                    ? "bg-amber-600 text-white"
+                    : "hover:bg-amber-100 text-gray-700"
+                  }`}
+              >
+                🏷️ Categories
+              </button>
+            </li>
+            <li>
+              <button
+                onClick={() => setActiveTab("overview")}
+                className={`w-full text-left px-4 py-2 rounded-lg ${activeTab === "overview"
+                    ? "bg-amber-600 text-white"
+                    : "hover:bg-amber-100 text-gray-700"
+                  }`}
+              >
+                📊 Overview
+              </button>
+            </li>
+
           </ul>
         </div>
 
@@ -72,6 +111,9 @@ const AdminDashboard = () => {
         {activeTab === "products" && <ProductList />}
         {activeTab === "orders" && <OrderManagement />}
         {activeTab === "users" && <UserManagement />}
+        {activeTab === "discounts" && <DiscountManagement />}
+        {activeTab === "categories" && <CategoryManagement />}
+        {activeTab === "overview" && <AdminOverview />}
       </div>
     </div>
   );
