@@ -22,7 +22,6 @@ import AdminDashboard from "./pages/admin/AdminDashboard";
 
 
 
-
 function App() {
   return (
     <AuthProvider>
@@ -86,6 +85,7 @@ function App() {
                 </PrivateRoute>
               }
             />
+            <Route path="/checkout" element={<Checkout />} />
           </Routes>
           <FloatingCartIcon />
           <Footer />
